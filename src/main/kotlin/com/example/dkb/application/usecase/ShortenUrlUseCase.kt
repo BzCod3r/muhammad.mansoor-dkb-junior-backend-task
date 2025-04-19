@@ -1,9 +1,8 @@
-package com.example.dkb.application.usecases
+package com.example.dkb.application.usecase
 
 import com.example.dkb.application.dto.CreateUrlRequest
 import com.example.dkb.application.dto.UrlResponse
-import com.example.dkb.domain.exception.InvalidUrlException
-import com.example.dkb.domain.gateway.UrlDSGateway
+import com.example.dkb.application.gateway.UrlDSGateway
 import org.springframework.stereotype.Service
 
 @Service

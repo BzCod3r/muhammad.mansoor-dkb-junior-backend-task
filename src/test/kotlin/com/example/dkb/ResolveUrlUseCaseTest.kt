@@ -2,8 +2,8 @@ package com.example.dkb
 
 import com.example.dkb.application.dto.ReadUrlRequest
 import com.example.dkb.application.dto.UrlResponse
-import com.example.dkb.application.usecases.ResolveUrlUseCase
-import com.example.dkb.domain.gateway.UrlDSGateway
+import com.example.dkb.application.usecase.ResolveUrlUseCase
+import com.example.dkb.application.gateway.UrlDSGateway
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test

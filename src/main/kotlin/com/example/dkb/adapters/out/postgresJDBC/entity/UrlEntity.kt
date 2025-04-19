@@ -1,6 +1,6 @@
-package com.example.dkb.infrastructure.persistence.entity
+package com.example.dkb.adapters.out.postgresJDBC.entity
 
-import com.example.dkb.domain.exception.InvalidUrlException
+import com.example.dkb.infrastructure.exception.InvalidUrlException
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern

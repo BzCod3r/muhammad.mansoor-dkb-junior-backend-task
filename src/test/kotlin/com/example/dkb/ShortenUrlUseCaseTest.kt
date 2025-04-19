@@ -2,9 +2,8 @@ package com.example.dkb
 
 import com.example.dkb.application.dto.CreateUrlRequest
 import com.example.dkb.application.dto.UrlResponse
-import com.example.dkb.application.usecases.ShortenUrlUseCase
-import com.example.dkb.domain.exception.InvalidUrlException
-import com.example.dkb.domain.gateway.UrlDSGateway
+import com.example.dkb.application.usecase.ShortenUrlUseCase
+import com.example.dkb.application.gateway.UrlDSGateway
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

@@ -1,7 +1,7 @@
 package com.example.dkb
 
-import com.example.dkb.domain.exception.InvalidUrlException
-import com.example.dkb.infrastructure.persistence.entity.UrlEntity
+import com.example.dkb.infrastructure.exception.InvalidUrlException
+import com.example.dkb.adapters.out.postgresJDBC.entity.UrlEntity
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
@@ -32,7 +32,7 @@ class UrlEntityTest {
 
     @Test
     fun `should reject blank URL`() {
-        assertThrows<InvalidUrlException> {UrlEntity.create("")  }
+        assertThrows<InvalidUrlException> { UrlEntity.create("")  }
     }
 
     @Test

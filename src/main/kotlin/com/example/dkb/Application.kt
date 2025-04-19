@@ -5,7 +5,7 @@ import org.springframework.boot.runApplication
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @SpringBootApplication
-@EnableJpaRepositories("com.example.dkb.infrastructure.persistence.repository.jpa")
+@EnableJpaRepositories("com.example.dkb.adapters.out.postgresJDBC.repository")
 class Application
 
 fun main(args: Array<String>) {

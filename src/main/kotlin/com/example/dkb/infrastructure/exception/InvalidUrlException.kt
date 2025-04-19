@@ -1,4 +1,4 @@
-package com.example.dkb.domain.exception
+package com.example.dkb.infrastructure.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
