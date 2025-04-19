@@ -17,7 +17,14 @@ data class UrlEntity private constructor(
     @field:NotBlank(message = "URL cannot be blank")
     @field:Size(max = 2048, message = "URL must be less than 2048 characters")
     @field:Pattern(
-        regexp = "^(https?|ftp)://[^\\s/$.?#].[^\\s]*\$",
+        regexp = "^" +
+                "(https?|ftp)://" +  // Protocol
+                "([a-zA-Z0-9.-]+)" +  // Domain
+                "(\\.[a-zA-Z]{2,})" + // TLD
+                "(/[^\\s?#]*)?" +     // Path
+                "(\\?[^\\s#]*)?" +    // Query
+                "(#\\S*)?" +          // Fragment
+                "$",
         message = "Invalid URL format"
     )
     val url: String,
@@ -26,11 +33,20 @@ data class UrlEntity private constructor(
     constructor() : this(null, "")
 
     companion object {
-        private val URL_REGEX = Regex("^(https?|ftp)://[^\\s/$.?#].[^\\s]*\$")
+        private val URL_REGEX = Regex("^(https?|ftp)://([a-z0-9-]+\\.)+[a-z]{2,}(/[^\\s?#]*)?(\\?[^\\s#]*)?(#\\S*)?$")
 
         fun create(url: String): UrlEntity {
-            validateUrl(url)
-            return UrlEntity(url = url.normalizeUrl())
+            val normalized = url.normalizeUrl() // Normalize FIRST
+            validateUrl(normalized) // Then validate
+            return UrlEntity(url = normalized)
+        }
+
+        private fun String.normalizeUrl(): String {
+            return this.trim()
+                .lowercase()
+                .replace(Regex("/+$"), "") // Remove trailing slashes
+                .replace(Regex("(?<!:)/+"), "/") // Remove duplicate slashes
+                .replace(Regex("^http://http://"), "http://") // Fix double protocols
         }
 
         private fun validateUrl(url: String) {
@@ -41,10 +57,6 @@ data class UrlEntity private constructor(
             }
         }
 
-        private fun String.normalizeUrl(): String {
-            return this.trim()
-                .removeSuffix("/")
-                .lowercase()
-        }
+
     }
 }

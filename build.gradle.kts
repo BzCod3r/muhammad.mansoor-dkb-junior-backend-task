@@ -39,6 +39,9 @@ dependencies {
     // swagger-ui
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 
+    // mock
+    testImplementation("io.mockk:mockk:1.14.0")
+
 }
 
 kotlin {
@@ -49,4 +52,5 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+
 }
