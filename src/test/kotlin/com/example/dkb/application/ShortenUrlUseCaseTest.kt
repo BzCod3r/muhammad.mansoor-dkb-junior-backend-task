@@ -1,4 +1,4 @@
-package com.example.dkb
+package com.example.dkb.application
 
 import com.example.dkb.application.dto.CreateUrlRequest
 import com.example.dkb.application.dto.UrlResponse

@@ -6,6 +6,7 @@ import com.example.dkb.application.dto.UrlResponse
 import com.example.dkb.application.usecase.GetAllUrlUseCase
 import com.example.dkb.application.usecase.ResolveUrlUseCase
 import com.example.dkb.application.usecase.ShortenUrlUseCase
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -23,13 +24,14 @@ class UrlShortenerController(
     fun getAllUrls()= ResponseEntity.ok().body(getAllUrlUseCase())
 
     @PostMapping
-    fun createShortUrl(@RequestBody request: CreateUrlRequest): ResponseEntity<UrlResponse> {
-        val shortenUrl = shortenUrlUseCase(request)
-        return ResponseEntity.created(
-            URI.create("/api/v1/urls/${shortenUrl.shortUrl}")
-        ).body(
-            shortenUrl
-        )
+    fun createShortUrl(@Valid @RequestBody request: CreateUrlRequest): ResponseEntity<UrlResponse> {
+        return shortenUrlUseCase(request)
+            ?.let { shortened ->
+                ResponseEntity.created(
+                    URI.create("/api/v1/urls/${shortened.shortUrl}")
+                ).body(shortened)
+            }
+            ?: ResponseEntity.badRequest().build()
     }
 
     @GetMapping("/{code}")

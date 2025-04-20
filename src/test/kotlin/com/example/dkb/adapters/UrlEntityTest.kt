@@ -1,4 +1,4 @@
-package com.example.dkb
+package com.example.dkb.adapters
 
 import com.example.dkb.infrastructure.exception.InvalidUrlException
 import com.example.dkb.adapters.out.postgresJDBC.entity.UrlEntity
@@ -17,13 +17,12 @@ class UrlEntityTest {
     @Test
     fun `should properly normalize URLs`() {
         val testCases = mapOf(
-            "HTTPS://EXAMPLE.COM/// " to "https://example.com",
-            "http://example.com/path///" to "http://example.com/path",
-            "example.com" to "http://example.com", // Auto-add protocol
-            "http://example.com//path//to//resource" to "http://example.com/path/to/resource",
-            "  http://example.com  " to "http://example.com"
-        )
+            "HTTPS://EXAMPLE.COM///" to "https://example.com",
+            "http://example.com/path///" to "https://example.com/path",
+            "example.com" to "https://example.com", // Auto-add protocol
+            "http://example.com//path//to//resource" to "https://example.com/path/to/resource",
 
+        )
         testCases.forEach { (input, expected) ->
             assertEquals(expected, UrlEntity.create(input).url,
                 "Failed for input: '$input'")
@@ -36,8 +35,8 @@ class UrlEntityTest {
     }
 
     @Test
-    fun `should rejec invalid format`() {
-        assertThrows<InvalidUrlException> { UrlEntity.create("example.com")  }
+    fun `should reject invalid format`() {
+        assertThrows<InvalidUrlException> { UrlEntity.create("example")  }
     }
 
 

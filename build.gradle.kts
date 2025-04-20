@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
+    kotlin("plugin.jpa") version "1.9.25"
     id("org.springframework.boot") version "3.4.4"
     id("io.spring.dependency-management") version "1.1.7"
 }
@@ -19,29 +20,35 @@ repositories {
 }
 
 dependencies {
+    // Core dependencies
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("org.postgresql:postgresql")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    // jpa
+    // Database
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("org.postgresql:postgresql")
 
-    // hashing
+    // Utilities
     implementation("org.hashids:hashids:1.0.3")
-    // mapping
     implementation("org.mapstruct:mapstruct-processor:1.6.3")
-
-    // swagger-ui
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 
-    // mock
-    testImplementation("io.mockk:mockk:1.14.0")
+    // Test dependencies - CORRECTED VERSION
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.junit.vintage")
+        exclude(module = "mockito-core")
+    }
+    // Unified JUnit Jupiter BOM import (ensures all JUnit 5 components use same version)
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.25")
+    testImplementation("io.mockk:mockk:1.13.9")
+    testImplementation("com.ninja-squad:springmockk:4.0.2") // Required for MockK+Spring integration
 }
 
 kotlin {
@@ -52,5 +59,4 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-
 }
