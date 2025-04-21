@@ -17,6 +17,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  flyway:
+    url: jdbc:postgresql://localhost:5432/postgres
+    user: postgres
+    password: postgres
+    locations: classpath:db/migration
 
 hashids:
   salt: Lzdk8t9KJ3kN9

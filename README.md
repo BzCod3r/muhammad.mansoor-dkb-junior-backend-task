@@ -30,7 +30,7 @@ src/
 ### 🐘 PostgreSQL Setup (via Docker)
 
 ```bash
-    docker run --name urlshortener-db -e POSTGRES_DB=urlshortener -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres
+    docker run --name urlshortener-db -e POSTGRES_DB=postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:14
 ```
 
 ---

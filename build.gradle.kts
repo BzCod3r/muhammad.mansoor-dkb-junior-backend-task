@@ -31,7 +31,7 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("com.h2database:h2")
     testImplementation("com.h2database:h2")
-
+    implementation("org.flywaydb:flyway-core:9.9.0")
 
     // Utilities
     implementation("org.hashids:hashids:1.0.3")
@@ -56,7 +56,6 @@ dependencies {
 
     // logger
     implementation("org.springframework.boot:spring-boot-starter-logging")
-
 
 
 }
