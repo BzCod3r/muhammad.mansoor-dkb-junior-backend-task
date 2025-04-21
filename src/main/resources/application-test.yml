@@ -1,0 +1,27 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  application:
+    name: muhammad.mansoor-dkb-junior-backend-task
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: ""
+    hikari:
+      maximum-pool-size: 5
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+hashids:
+  salt: Lzdk8t9KJ3kN9
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+

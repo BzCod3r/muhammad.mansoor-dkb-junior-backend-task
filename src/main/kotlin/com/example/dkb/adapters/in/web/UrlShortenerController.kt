@@ -1,13 +1,13 @@
 package com.example.dkb.adapters.`in`.web
 
 import com.example.dkb.application.dto.CreateUrlRequest
-import com.example.dkb.application.dto.ReadUrlRequest
 import com.example.dkb.application.dto.UrlResponse
 import com.example.dkb.application.usecase.GetAllUrlUseCase
 import com.example.dkb.application.usecase.ResolveUrlUseCase
 import com.example.dkb.application.usecase.ShortenUrlUseCase
+import com.example.dkb.infrastructure.exception.UrlNotFoundException
 import jakarta.validation.Valid
-import org.springframework.http.HttpStatus
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
@@ -20,26 +20,43 @@ class UrlShortenerController(
     private val getAllUrlUseCase: GetAllUrlUseCase
 ) {
 
+    val logger= LoggerFactory.getLogger(this::class.java)
+
+
     @GetMapping
     fun getAllUrls()= ResponseEntity.ok().body(getAllUrlUseCase())
 
     @PostMapping
     fun createShortUrl(@Valid @RequestBody request: CreateUrlRequest): ResponseEntity<UrlResponse> {
-        return shortenUrlUseCase(request)
-            ?.let { shortened ->
+        logger.info("Shorten request received for URL: ${request.url}")
+
+        val response= shortenUrlUseCase(request)
+            .let { shortened ->
                 ResponseEntity.created(
                     URI.create("/api/v1/urls/${shortened.shortUrl}")
                 ).body(shortened)
             }
-            ?: ResponseEntity.badRequest().build()
+        logger.info("Shorten request response: $response")
+
+        return response
     }
 
     @GetMapping("/{code}")
     fun resolveShortCode(@PathVariable("code") code: String): ResponseEntity<UrlResponse> {
-        val resolveUrl= resolveUrlUseCase(code)
-        return ResponseEntity.ok().body(
-            resolveUrl
-        )
+        logger.info("Resolve request received for code: {}", code)
+
+        return try {
+            val resolveUrl = resolveUrlUseCase(code)
+            logger.debug("Successfully resolved code: {} to URL: {}", code, resolveUrl.url.take(50))
+
+            ResponseEntity.ok().body(resolveUrl)
+        } catch (ex: UrlNotFoundException) {
+            logger.warn("Failed to resolve code: {} - Not Found", code)
+            throw ex
+        } catch (ex: Exception) {
+            logger.error("Unexpected error resolving code: {}", code, ex)
+            throw ex
+        }
     }
 
 }

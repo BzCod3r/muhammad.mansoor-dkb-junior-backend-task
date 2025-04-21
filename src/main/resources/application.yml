@@ -1,0 +1,42 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: muhammad.mansoor-dkb-junior-backend-task
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 5000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+hashids:
+  salt: Lzdk8t9KJ3kN9
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics"  # Include specific endpoints you want to expose
+      base-path: "/actuator"           # Default base path for actuator endpoints
+  health:
+    status:
+      order: "ALWAYS"                 # Change health check status order (optional)
+  metrics:
+    enabled: true
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+

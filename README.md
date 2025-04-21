@@ -13,6 +13,7 @@ A production-ready URL shortening service build with:
 
 ```
 src/
+├── adapters/            # entry point for the project
 ├── application/         # Core business logic (entities, usecases)
 ├── domain/              # Gateways and exception
 ├── infrastructure/      # REST API-Controllers, JPA, DB config, and persistence implementations
@@ -32,60 +33,63 @@ src/
     docker run --name urlshortener-db -e POSTGRES_DB=urlshortener -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres
 ```
 
-### 🚰 Running the App
+---
+
+## 🚀 Spring Profiles
+
+The application supports the following profiles:
+
+- **`dev`** - Local development (default)
+- **`test`** - Used for unit/integration testing
+- **`production`** - Production-ready configuration
+
+You can specify the active profile using the `SPRING_PROFILES_ACTIVE` environment variable or via Gradle.
+
+### Run with `dev` profile
 
 ```bash
-    ./gradlew bootRun
+    ./gradlew bootRun --args='--spring.profiles.active=dev'
+```
+
+### Run with `test` profile
+
+```bash
+    ./gradlew bootRun --args='--spring.profiles.active=test'
+```
+
+### Run with `prod` profile
+
+```bash
+    ./gradlew clean bootJar
+    java -jar build/libs/dkb-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 
 App will start at: `http://localhost:8080`
 
-## 📌 API Endpoints
+## 📚 API Documentation
 
-### ➕ POST `/api/v1/urls`
+This Spring Boot project integrates **Swagger UI** for easy API testing and documentation.
 
-Shortens a given long URL.
+### 🔗 Access Swagger UI
 
-**Request Body:**
+Once the application is up and running, you can open Swagger UI in your browser at:
+`http://localhost:8080/swagger-ui/index.html`
 
-```json
-{
-  "url": "https://example.com/some/long/url"
-}
-```
 
-**Response:**
+## Actuator Endpoints
 
-```json
-{
-  "url": "https://example.com/some/long/url",
-  "shortUrl": "abc123"
-}
-```
+- **Health**: `/actuator/health` (GET) – Check the health status of the application.
+- **Info**: `/actuator/info` (GET) – Retrieve application metadata (e.g., version, build).
+- **Metrics**: `/actuator/metrics` (GET) – Access various metrics such as memory usage and request counts.
+- **Environment**: `/actuator/env` (GET) – Retrieve environment properties and configuration details.
+- **Loggers**: `/actuator/loggers` (GET) – View and configure logging levels for the application.
 
-### 🔁 POST `/api/v1/resolve`
-Resolve  a given code.
+## Docker Compose File
 
-**Request Body:**
+The project includes a `docker-compose.yml` file that can be used to set up the PostgreSQL database and run the Spring Boot application in production mode automatically.
 
-```json
-{
-  "url": "abc123"
-}
-```
-
-**Response:**
-
-```json
-{
-  "url": "https://example.com/some/long/url",
-  "shortUrl": "abc123"
-}
-```
-
-### 🚰 Running the Tests
+To start the PostgreSQL container and run the Spring Boot application in production mode, use the following command:
 
 ```bash
-    ./gradlew bootRun
+    docker-compose up --build
 ```
-

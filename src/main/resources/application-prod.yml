@@ -1,0 +1,59 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: muhammad.mansoor-dkb-junior-backend-task
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgres:5432/postgres
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 5000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics,loggers"  # Expose more endpoints in production (e.g., loggers)
+      base-path: "/actuator"                   # Customize actuator endpoint path for prod
+  health:
+    status:
+      order: "DOWN"                           # In production, show 'DOWN' status for unhealthy services
+  metrics:
+    enabled: true                             # Keep metrics enabled in production for monitoring
+  logging:
+    level:
+      org.springframework.web: ERROR          # Set different logging levels for production
+
+
+hashids:
+  salt: Lzdk8t9KJ3kN9
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  file:
+    name: /var/log/app.log
+  pattern:
+    json: '{"@timestamp":"%d{yyyy-MM-dd HH:mm:ss.SSS}","level":"%level","service":"${spring.application.name}","message":"%message"}'
+  level:
+    root: INFO
+    com.your.package: INFO
+  logback:
+    rolling policy:
+      max-history: 30
+      max-file-size: 100MB

@@ -35,9 +35,7 @@ class UrlDSGatewayImpl(
             throw DuplicateUrlException("The URL already exists.")
         }
         val entity = urlRepository.save(
-            UrlEntity.create(
-                url = command.url
-            )
+            UrlEntity(url = command.url)
         )
 
         if (entity.id == null) throw InvalidUrlException("The ID of the URL is invalid.")

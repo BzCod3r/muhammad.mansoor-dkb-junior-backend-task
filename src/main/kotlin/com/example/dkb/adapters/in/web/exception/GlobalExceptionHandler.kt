@@ -1,5 +1,6 @@
 package com.example.dkb.adapters.`in`.web.exception
 
+import com.example.dkb.infrastructure.exception.InvalidShortCodeException
 import com.example.dkb.infrastructure.exception.InvalidUrlException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,7 +17,14 @@ class GlobalExceptionHandler {
             .body(ErrorResponse(ex.message ?: "Invalid URL"))
     }
 
-    // Add other exception handlers as needed
+    @ExceptionHandler(InvalidShortCodeException::class)
+    fun handleInvalidShortCode(ex: InvalidShortCodeException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(ErrorResponse(ex.message ?: "Invalid ShortCode"))
+    }
+
+
 }
 
 data class ErrorResponse(val message: String)

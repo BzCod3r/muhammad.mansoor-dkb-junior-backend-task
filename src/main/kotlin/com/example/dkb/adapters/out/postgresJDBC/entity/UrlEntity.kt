@@ -14,10 +14,4 @@ data class UrlEntity(
 ) {
     constructor() : this(null, "")
 
-    companion object {
-        fun create(validatedUrl: String): UrlEntity {
-            // No validation here, just creation
-            return UrlEntity(url = validatedUrl)
-        }
-    }
 }
