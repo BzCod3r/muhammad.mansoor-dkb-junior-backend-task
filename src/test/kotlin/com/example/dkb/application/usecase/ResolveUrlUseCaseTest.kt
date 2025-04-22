@@ -17,16 +17,13 @@ class ResolveUrlUseCaseTest {
 
     @Test
     fun `should return UrlResponse when short code exists`() {
-        // Arrange
         val shortCode = "abc12345"
         val expectedResponse = UrlResponse("https://example.com", shortCode)
 
         every { urlDSGateway.findByShortCode(shortCode) } returns expectedResponse
 
-        // Act
         val actual = resolveUrlUseCase(shortCode)
 
-        // Assert
         verify(exactly = 1) { urlDSGateway.findByShortCode(shortCode) }
         assertEquals(expectedResponse, actual)
 
@@ -34,11 +31,9 @@ class ResolveUrlUseCaseTest {
 
     @Test
     fun `should throw UrlNotFoundException when short code does not exist`() {
-        // Arrange
         val shortCode = "notfound123"
         every { urlDSGateway.findByShortCode(shortCode) } returns null
 
-        // Act & Assert
         val exception = assertThrows<UrlNotFoundException> {
             resolveUrlUseCase(shortCode)
         }

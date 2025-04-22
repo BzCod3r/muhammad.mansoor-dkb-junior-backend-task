@@ -5,6 +5,8 @@ A production-ready URL shortening service build with:
 - **Clean Architecture**
 - **Kotlin**
 - **JPA/Hibernate**
+- **Flyway**
+- **Docker-compose**
 - **Mockk**
 
 ### Getting Started
@@ -31,6 +33,10 @@ src/
 
 ```bash
     docker run --name urlshortener-db -e POSTGRES_DB=postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:14
+```
+### Redis (caching)
+```bash
+    docker run --name redis -p 6379:6379 -d redis:latest redis-server --requirepass "temppass"
 ```
 
 ---
@@ -65,6 +71,14 @@ You can specify the active profile using the `SPRING_PROFILES_ACTIVE` environmen
 ```
 
 App will start at: `http://localhost:8080`
+
+## 🧪 Running Tests
+
+To run the test suite, use the following command:
+
+```bash
+    ./gradlew test
+```
 
 ## 📚 API Documentation
 

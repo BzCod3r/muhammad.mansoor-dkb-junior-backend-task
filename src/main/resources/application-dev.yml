@@ -1,5 +1,6 @@
 spring:
-  config:
+  cache:
+    type: redis
     activate:
       on-profile: dev
   datasource:
@@ -22,7 +23,12 @@ spring:
     user: postgres
     password: postgres
     locations: classpath:db/migration
-
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: temppass
+      timeout: 2000
 hashids:
   salt: Lzdk8t9KJ3kN9
 

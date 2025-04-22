@@ -31,7 +31,11 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("com.h2database:h2")
     testImplementation("com.h2database:h2")
+    testImplementation("it.ozimov:embedded-redis:0.7.3")
     implementation("org.flywaydb:flyway-core:9.9.0")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.data:spring-data-redis")
 
     // Utilities
     implementation("org.hashids:hashids:1.0.3")
@@ -68,4 +72,5 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    systemProperty("spring.profiles.active", "test")
 }

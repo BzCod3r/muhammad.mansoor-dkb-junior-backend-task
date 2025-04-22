@@ -1,32 +1,28 @@
 spring:
+  application:
+    name: muhammad.mansoor-dkb-junior-backend-task
   config:
     activate:
       on-profile: test
-
-  application:
-    name: muhammad.mansoor-dkb-junior-backend-task
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
     username: sa
     password: ""
     hikari:
-      maximum-pool-size: 5
+      maximum-pool-size: 3
   jpa:
     hibernate:
       ddl-auto: create-drop
     show-sql: false
   flyway:
-    url: jdbc:postgresql://localhost:5432/postgres
-    user: postgres
-    password: postgres
-    locations: classpath:db/migration
-
+    enabled: false  # Disable Flyway during tests with H2
+  cache:
+    type: none
 hashids:
   salt: Lzdk8t9KJ3kN9
-
 springdoc:
   api-docs:
     enabled: true
   swagger-ui:
     path: /swagger-ui.html
-

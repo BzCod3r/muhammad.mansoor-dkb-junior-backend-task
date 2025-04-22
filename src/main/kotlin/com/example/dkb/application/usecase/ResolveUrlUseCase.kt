@@ -4,6 +4,7 @@ import com.example.dkb.application.dto.UrlResponse
 import com.example.dkb.application.gateway.UrlDSGateway
 import com.example.dkb.infrastructure.exception.InvalidShortCodeException
 import com.example.dkb.infrastructure.exception.UrlNotFoundException
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.crossstore.ChangeSetPersister
 import org.springframework.stereotype.Service
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service
 class ResolveUrlUseCase(
     private val urlDSGateway: UrlDSGateway
 ) {
+    @Cacheable(value = ["resolvedUrl"], key = "#code")
     operator fun invoke(code: String): UrlResponse {
         val validatedCode = validateCode(code)
         return urlDSGateway.findByShortCode(validatedCode)
