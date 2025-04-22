@@ -10,6 +10,7 @@ A production-ready URL shortening service build with:
 - **Flyway**
 - **Docker-compose**
 - **Mockk**
+- **Swagger-UI**
 
 ### Getting Started
 
