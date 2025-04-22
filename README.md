@@ -5,6 +5,8 @@ A production-ready URL shortening service build with:
 - **Clean Architecture**
 - **Kotlin**
 - **JPA/Hibernate**
+- **PostgreSQL**
+- **Redis**
 - **Flyway**
 - **Docker-compose**
 - **Mockk**
